@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "enter the directory name for the gitignore file to be created in"
+echo "enter the directory name for the website"
 
 read dirName
 
