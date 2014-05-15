@@ -59,6 +59,7 @@ echo 'gitignore created'
 fi
 
 git init
+git config core.fileMode false
 git status
 
 echo 'do you want to do a initial commit '
