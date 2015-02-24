@@ -56,7 +56,6 @@ service php-fpm start
 echo 'configuring apache for virtual hosts ....'
 
 cat >> /etc/httpd/conf/httpd.conf << EOL
-EnableSendfile Off
 AddType text/html .php
 php_value session.save_handler "files"
 php_value session.save_path    "/var/lib/php/session"
@@ -71,6 +70,11 @@ ServerName linux-app-dev.accentdesign.co.uk
     	Options MultiViews SymLinksIfOwnerMatch IncludesNoExec
     	Require method GET POST OPTIONS
 </Directory>
+EnableSendfile on
+<VirtualHost *:80>
+    DocumentRoot /var/www/html
+</VirtualHost>
+IncludeOptional /etc/httpd/conf.d/*.conf
 EOL
 
 echo 'Disabling SELinux ....'
