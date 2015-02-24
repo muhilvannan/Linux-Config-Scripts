@@ -12,13 +12,15 @@ if [ $(id -u) -eq 0 ]; then
                 useradd -m -p $pass $username
                 if [ $? -eq 0 ]; then
                     mkdir /var/log/httpd/$username
-		    mkdir /home/$username/public_html
+		            mkdir /home/$username/public_html
                     chmod 711 /home/$username
                     chmod 755 /home/$username/public_html
                     chown -R $username /home/$username/public_html
                     mkdir /home/$username/.ssh
+                    chmod 700 /home/$username/.ssh
                     cat /root/.ssh/id_rsa.pub > /home/$username/.ssh/authorized_keys
                     chmod 400 /home/$username/.ssh/authorized_keys
+                    chown $username:$username -Rf /home/$username/.ssh
                     echo "User has been added to system!"
 		else
                     echo "Failed to add a user!"
