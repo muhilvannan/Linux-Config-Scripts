@@ -30,6 +30,7 @@ service httpd start
 cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak.bak
 sed -i.bak -e "s/^#LoadModule rewrite_/LoadModule rewrite_/g" /etc/httpd/conf/httpd.conf
 sed -i.bak -e "s/^#LoadModule userdir_/LoadModule userdir_/g" /etc/httpd/conf/httpd.conf
+sed -i.bak -e "s/^#LoadModule ssl_/LoadModule ssl_/g" /etc/httpd/conf/httpd.conf
 service httpd restart
 mkdir /etc/httpd/sites-enabled
 echo "<?php phpinfo();" > /var/www/html/phpinfo.php
@@ -56,6 +57,7 @@ service php-fpm start
 echo 'configuring apache for virtual hosts ....'
 
 cat >> /etc/httpd/conf/httpd.conf << EOL
+Listen 443
 AddType text/html .php
 php_value session.save_handler "files"
 php_value session.save_path    "/var/lib/php/session"
@@ -87,6 +89,20 @@ chmod 777 /var/lib/php/session
 
 echo 'PHP session folders configured ....'
 
+mkdir /etc/httpd/ssl
+mkdir /etc/httpd/ssl/bundles
+mkdir /etc/httpd/ssl/certs
+mkdir /etc/httpd/ssl/keys
+mkdir /etc/httpd/ssl/csr
+chmod 644 /etc/httpd/ssl/bundles
+chmod 644 /etc/httpd/ssl/certs
+chmod 600 /etc/httpd/ssl/keys
+chmod 644 /etc/httpd/ssl/csr
+
+echo 'SSL folders configured ....'
+
 service httpd restart
 
 yum install -y system-config-firewall
+
+echo 'Done'
