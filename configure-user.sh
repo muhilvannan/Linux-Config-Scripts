@@ -12,10 +12,11 @@ if [ $(id -u) -eq 0 ]; then
                 useradd -m -p $pass $username
                 if [ $? -eq 0 ]; then
                     mkdir /var/log/httpd/$username
-		    mkdir /home/$username/public_html
+		            mkdir /home/$username/public_html
+                    usermod -a -G apache $username
                     chmod 711 /home/$username
                     chmod 755 /home/$username/public_html
-                    chown -R $username /home/$username/public_html
+                    chown -R $username:apache /home/$username/public_html
                     echo "User has been added to system!"
                 read -p "Enter domain to be added without www : " domainname
 		echo "# DO NOT EDIT. AUTOMATICALLY GENERATED.  IF YOU NEED TO MAKE A CHANGE PLEASE USE THE INCLUDE FILES.

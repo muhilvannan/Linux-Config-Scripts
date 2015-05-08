@@ -13,9 +13,10 @@ if [ $(id -u) -eq 0 ]; then
                 if [ $? -eq 0 ]; then
                     mkdir /var/log/httpd/$username
 		            mkdir /home/$username/public_html
+                    usermod -a -G apache $username
                     chmod 711 /home/$username
                     chmod 755 /home/$username/public_html
-                    chown -R $username /home/$username/public_html
+                    chown -R $username:apache /home/$username/public_html
                     mkdir /home/$username/.ssh
                     chmod 700 /home/$username/.ssh
                     cat /root/.ssh/id_rsa.pub > /home/$username/.ssh/authorized_keys
